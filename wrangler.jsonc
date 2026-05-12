@@ -7,25 +7,21 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "my-emdash-site","database_id": "035a2218-0ab5-4dc9-99f5-beb0ad1b9136",
-		},
+			"database_name": "my-emdash-site",
+			"database_id": "035a2218-0ab5-4dc9-99f5-beb0ad1b9136"
+		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			"bucket_name": "my-emdash-media","preview_bucket_name": "my-emdash-media",
-		},
+			"bucket_name": "my-emdash-media",
+			"preview_bucket_name": "my-emdash-media"
+		}
 	],
-"kv_namespaces": [
+	"kv_namespaces": [
 		{
 			"binding": "KV",
 			"id": "c9181fbb083f4d098a22ad7859801206"
 		}
-	],
-	// Worker Loader for plugin sandboxing
-	"worker_loaders": [
-		{
-			"binding": "LOADER",
-		},
-	],
+	]
 }
