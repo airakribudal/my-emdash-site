@@ -8,7 +8,9 @@ import emdash from "emdash/astro";
 
 export default defineConfig({
 	output: "server",
-	adapter: cloudflare(),
+	adapter: cloudflare({
+		sessionKVBindingName: false, // Fixes the duplicate KV error
+	}),
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
@@ -16,7 +18,7 @@ export default defineConfig({
 	integrations: [
 		react(),
 		emdash({
-			database: d1({ binding: "DB", session: "auto" }),
+			database: d1({ binding: "DB", session: "d1" }), // Uses D1 instead of KV
 			storage: r2({ binding: "MEDIA" }),
 			plugins: [formsPlugin()],
 			sandboxed: [webhookNotifierPlugin()],
