@@ -16,6 +16,12 @@
 			"bucket_name": "my-emdash-media","preview_bucket_name": "my-emdash-media",
 		},
 	],
+"kv_namespaces": [
+		{
+			"binding": "KV",
+			"id": "c9181fbb083f4d098a22ad7859801206"
+		}
+	],
 	// Worker Loader for plugin sandboxing
 	"worker_loaders": [
 		{
