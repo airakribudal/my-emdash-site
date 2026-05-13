@@ -5,49 +5,42 @@ import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
-import { defineConfig } from 'astro/config';
-import emdash from 'emdash/astro';
-import { d1 } from 'emdash/db';
-
-export default defineConfig({
-  integrations: [
-    emdash({
-      database: d1(), // This sets up the database for your content
-    }),
-  ],
-});
 
 export default defineConfig({
 	output: "server",
-	// FIX: We tell the adapter NOT to inject a KV binding automatically.
+	
+	// Cloudflare adapter configuration
 	adapter: cloudflare({
+		// Setting this to false prevents conflicts if you manage KV manually
 		sessionKVBindingName: false, 
 	}),
+
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
 	},
+
 	integrations: [
-		react(),
+		react(), // Required for the VIIO theme and EmDash admin panel
 		emdash({
-			// FIX: Change session to "d1". 
-			// This tells EmDash to store session data in your D1 database table 
-			// instead of looking for a KV namespace.
+			// Database configuration: uses Cloudflare D1
 			database: d1({ 
 				binding: "DB", 
-				session: "d1" 
+				session: "d1" // Stores admin sessions in your database
 			}),
+			// Storage configuration: uses Cloudflare R2 for images/files
 			storage: r2({ 
 				binding: "MEDIA" 
 			}),
 			plugins: [formsPlugin()],
 			sandboxed: [webhookNotifierPlugin()],
-			// NOTE: sandbox() uses Dynamic Workers. If deployment fails here, 
-			// you may need to upgrade to the $5/mo plan or comment this out.
+			
+			// Note: If deployment fails, you may need a paid Cloudflare plan for sandbox()
 			sandboxRunner: sandbox(),
 			marketplace: "https://marketplace.emdashcms.com",
 		}),
 	],
+
 	fonts: [
 		{
 			provider: fontProviders.google(),
@@ -64,5 +57,6 @@ export default defineConfig({
 			fallbacks: ["monospace"],
 		},
 	],
+
 	devToolbar: { enabled: false },
 });
