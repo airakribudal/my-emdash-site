@@ -1,33 +1,45 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
-import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
+import { d1, r2 } from "@emdash-cms/cloudflare";
 import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
-import { defineConfig } from "astro/config"; // Removed fontProviders for now
+import { defineConfig } from "astro/config";
 import emdash from "emdash/astro";
 
 export default defineConfig({
+	// We use 'server' mode so the Admin dashboard can process logins
 	output: "server",
+	
+	// Cloudflare adapter configuration
 	adapter: cloudflare({
 		sessionKVBindingName: false, 
 	}),
+
+	// Image optimization settings
+	image: {
+		layout: "constrained",
+		responsiveStyles: true,
+	},
+
 	integrations: [
-		react(),
+		// React is required for both the VIIO theme and the EmDash UI
+		react(), 
+		
+		// EmDash CMS Configuration
 		emdash({
 			database: d1({ 
 				binding: "DB", 
-				session: "d1"
+				session: "d1" 
 			}),
 			storage: r2({ 
 				binding: "MEDIA" 
 			}),
 			plugins: [formsPlugin()],
 			sandboxed: [webhookNotifierPlugin()],
-			sandboxRunner: sandbox(),
 			marketplace: "https://marketplace.emdashcms.com",
 		}),
 	],
-    // REMOVED: experimental block
-    // REMOVED: fonts block (to test if this is the issue)
+
+	// Disabling the toolbar to prevent UI conflicts with the theme
 	devToolbar: { enabled: false },
 });
