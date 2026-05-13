@@ -5,6 +5,17 @@ import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
+import { defineConfig } from 'astro/config';
+import emdash from 'emdash/astro';
+import { d1 } from 'emdash/db';
+
+export default defineConfig({
+  integrations: [
+    emdash({
+      database: d1(), // This sets up the database for your content
+    }),
+  ],
+});
 
 export default defineConfig({
 	output: "server",
