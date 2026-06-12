@@ -1,5 +1,6 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite"; // <-- 1. Import the new v4 compiler plugin
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
 import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
@@ -8,7 +9,6 @@ import emdash from "emdash/astro";
 
 export default defineConfig({
 	output: "server",
-	// FIX: We tell the adapter NOT to inject a KV binding automatically.
 	adapter: cloudflare({
 		sessionKVBindingName: false, 
 	}),
@@ -16,12 +16,13 @@ export default defineConfig({
 		layout: "constrained",
 		responsiveStyles: true,
 	},
+	// 2. We hook Tailwind into Vite's plugin ecosystem instead of integrations
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	integrations: [
 		react(),
 		emdash({
-			// FIX: Change session to "d1". 
-			// This tells EmDash to store session data in your D1 database table 
-			// instead of looking for a KV namespace.
 			database: d1({ 
 				binding: "DB", 
 				session: "d1" 
@@ -31,8 +32,6 @@ export default defineConfig({
 			}),
 			plugins: [formsPlugin()],
 			sandboxed: [webhookNotifierPlugin()],
-			// NOTE: sandbox() uses Dynamic Workers. If deployment fails here, 
-			// you may need to upgrade to the $5/mo plan or comment this out.
 			sandboxRunner: sandbox(),
 			marketplace: "https://marketplace.emdashcms.com",
 		}),
