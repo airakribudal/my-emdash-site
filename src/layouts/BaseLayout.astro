@@ -8,6 +8,7 @@ import Footer from '../components/Footer.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../config';
 import { resolvePath } from '../utils/navigation';
+import { EmDashScripts } from 'emdash';
 
 interface Props {
   title: string;
@@ -176,5 +177,6 @@ const structuredData =
         });
       });
     </script>
+    <EmDashScripts />
   </body>
 </html>
