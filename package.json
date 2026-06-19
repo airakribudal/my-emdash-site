@@ -14,13 +14,13 @@
 		"typecheck": "astro check"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^13.1.7",
+		"@astrojs/cloudflare": "^13.1.1",
 		"@astrojs/react": "^5.0.0",
 		"@emdash-cms/cloudflare": "^0.17.2",
 		"@emdash-cms/plugin-forms": "^0.2.2",
 		"@emdash-cms/plugin-webhook-notifier": "^0.1.3",
-		"astro": "^6.0.1",
-		"emdash": "^0.12.0",
+		"astro": "^6.4.8",
+		"emdash": "^0.21.0",
 		"react": "19.2.4",
 		"react-dom": "19.2.4",
 		"tailwindcss": "^4.3.0",
