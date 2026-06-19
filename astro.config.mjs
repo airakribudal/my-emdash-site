@@ -57,6 +57,13 @@ export default defineConfig({
             weights: [400, 500],
             fallbacks: ["monospace"],
         },
+		{
+			provider: fontProviders.google(),
+			name: "Space Grotesk",
+			cssVariable: "--font-heading",
+			weights: [400, 500, 600, 700],
+			fallbacks: ["sans-serif"],
+		},
     ],
     devToolbar: { enabled: false },
 });
