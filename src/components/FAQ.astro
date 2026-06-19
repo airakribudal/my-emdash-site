@@ -16,36 +16,37 @@ const { entries: faqItems = [] } = await getEmDashCollection("faqs") as any;
     </div>
 
     <div class="space-y-4" data-emdash-repeater="faqs">
-      {faqItems.map((faq: any, index: number) => {
-        // 2. Safely grab the inner data
-        const itemData = faq?.data as any;
-        
-        return (
-          <details 
-            data-emdash-item={faq?.id || index}
-            class="group glass-panel rounded-2xl [&_summary::-webkit-details-marker]:hidden reveal-on-scroll" 
-            style={`transition-delay: ${index * 50}ms;`}
-          >
-            <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-slate-900 dark:text-white font-medium">
-              {/* Inline editor hooks */}
-              <h3 class="text-lg font-heading font-bold" {...itemData?.edit?.question}>
-                {itemData?.question}
-              </h3>
-              <span class="relative h-5 w-5 shrink-0 text-slate-500 dark:text-slate-400 group-open:text-primary-600 dark:group-open:text-primary-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
-                </svg>
-              </span>
-            </summary>
-            <div class="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed">
-              <p {...itemData?.edit?.answer}>{itemData?.answer}</p>
-            </div>
-          </details>
-        );
-      })}
-    </div>
+  {faqItems.map((faq: any, index: number) => {
+    // 1. Core text data lives inside .data
+    const data = faq?.data || {};
+    
+    return (
+      <details 
+        data-emdash-item={faq?.id || index}
+        class="group glass-panel rounded-2xl [&_summary::-webkit-details-marker]:hidden reveal-on-scroll" 
+        style={`transition-delay: ${index * 50}ms;`}
+      >
+        <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-slate-900 dark:text-white font-medium">
+          {/* 2. Critical: The visual .edit hooks must attach to the parent 'faq' object */}
+          <h3 class="text-lg font-heading font-bold" {...faq?.edit?.question}>
+            {data?.question}
+          </h3>
+          <span class="relative h-5 w-5 shrink-0 text-slate-500 dark:text-slate-400 group-open:text-primary-600 dark:group-open:text-primary-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+            </svg>
+          </span>
+        </summary>
+        <div class="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+          {/* 2. Critical: The visual .edit hooks must attach to the parent 'faq' object */}
+          <p {...faq?.edit?.answer}>{data?.answer}</p>
+        </div>
+      </details>
+    );
+  })}
+</div>
   </div>
 </section>
