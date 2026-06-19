@@ -1,27 +1,29 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
-import tailwindcss from "@tailwindcss/vite"; // <-- 1. Import the new v4 compiler plugin
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
 import { formsPlugin } from "@emdash-cms/plugin-forms";
 import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 import emdash from "emdash/astro";
 
 export default defineConfig({
+	// We use 'server' mode so the Admin dashboard can process logins
 	output: "server",
+	// FIX: We tell the adapter NOT to inject a KV binding automatically.
 	adapter: cloudflare({
 		sessionKVBindingName: "UNUSED_KV", 
 	}),
+
+	// Image optimization settings
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
 	},
-	// 2. We hook Tailwind into Vite's plugin ecosystem instead of integrations
-	vite: {
-		plugins: [tailwindcss()],
-	},
 	integrations: [
-		react(),
+		// React is required for both the VIIO theme and the EmDash UI
+		react(), 
+		
+		// EmDash CMS Configuration
 		emdash({
 			database: d1({ 
 				binding: "DB", 
@@ -32,6 +34,8 @@ export default defineConfig({
 			}),
 			plugins: [formsPlugin()],
 			sandboxed: [webhookNotifierPlugin()],
+			// NOTE: sandbox() uses Dynamic Workers. If deployment fails here, 
+			// you may need to upgrade to the $5/mo plan or comment this out.
 			sandboxRunner: sandbox(),
 			marketplace: "https://marketplace.emdashcms.com",
 		}),
@@ -52,5 +56,5 @@ export default defineConfig({
 			fallbacks: ["monospace"],
 		},
 	],
-	devToolbar: { enabled: true },
+	devToolbar: { enabled: false },
 });
