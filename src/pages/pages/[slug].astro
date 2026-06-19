@@ -2,8 +2,7 @@
 import { getEmDashEntry, decodeSlug } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
-
-const slug = decodeSlug(Astro.params.slug);
+const { title, editAttr } = Astro.props;
 
 if (!slug) {
 	return Astro.redirect("/404");

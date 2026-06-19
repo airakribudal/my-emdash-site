@@ -10,7 +10,7 @@ import emdash from "emdash/astro";
 export default defineConfig({
 	output: "server",
 	adapter: cloudflare({
-		sessionKVBindingName: false, 
+		sessionKVBindingName: "UNUSED_KV", 
 	}),
 	image: {
 		layout: "constrained",
@@ -52,5 +52,5 @@ export default defineConfig({
 			fallbacks: ["monospace"],
 		},
 	],
-	devToolbar: { enabled: false },
+	devToolbar: { enabled: true },
 });

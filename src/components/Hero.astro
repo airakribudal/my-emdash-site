@@ -2,6 +2,7 @@
 import Button from './Button.astro';
 import Badge from './Badge.astro';
 import { resolvePath } from '../utils/navigation';
+const { title, editAttr } = Astro.props;
 ---
 
 <section class="relative pt-32 pb-32 lg:pt-48 lg:pb-40 overflow-hidden">
@@ -20,7 +21,7 @@ import { resolvePath } from '../utils/navigation';
     </div>
     
     <h1 class="text-6xl sm:text-7xl lg:text-8xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 max-w-5xl mx-auto leading-[1.1]">
-      A calmer foundation for <span class="text-gradient">modern SaaS websites.</span>
+      A stronger foundation for <span class="text-gradient">modern SaaS websites.</span>
     </h1>
     
     <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 mb-12 max-w-3xl mx-auto font-sans leading-relaxed">
